@@ -1,3 +1,4 @@
+{{ alpin js: usage of 'isDrawerOpen' variable }}
 <nav class="flex fixed w-full items-center justify-between px-6 h-16 bg-white text-gray-700 border-b border-gray-200 z-10">
   
   {{-- Side Drawer Opener --}}
@@ -14,7 +15,7 @@
         <path d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
-    <img src="/logos/fox-hub.png" alt="Logo" class="h-auto w-24" />
+    <img src="/images/logo.svg" alt="Logo" class="h-auto w-24" />
   </div>
 
   {{-- Top Navigation --}}
@@ -69,7 +70,7 @@
     <span
       x-on:click="isDrawerOpen = false"
       class="flex w-full items-center p-4 border-b">
-      <img src="/logos/fox-hub.png" alt="Logo" class="h-auto w-32 mx-auto" />
+      <img src="/images/logo.svg" alt="Logo" class="h-auto w-32 mx-auto" />
     </span>
     <span
       x-on:click="isDrawerOpen = false"
