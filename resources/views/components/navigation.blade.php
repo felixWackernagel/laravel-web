@@ -1,9 +1,9 @@
-{{ alpin js: usage of 'isDrawerOpen' variable }}
+{{-- alpin js: usage of 'isDrawerOpen' variable --}}
 <nav class="flex fixed w-full items-center justify-between px-6 h-16 bg-white text-gray-700 border-b border-gray-200 z-10">
   
   {{-- Side Drawer Opener --}}
   <div class="flex items-center">
-    <button class="mr-2" aria-label="Open Menu" x-on:click="isDrawerOpen = !isDrawerOpen">
+    <button class="mr-3" aria-label="Open Menu" x-on:click="isDrawerOpen = !isDrawerOpen">
       <svg
         fill="none"
         stroke="currentColor"
@@ -15,48 +15,82 @@
         <path d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
-    <img src="/images/logo.svg" alt="Logo" class="h-auto w-24" />
+    
+    <a href="{{ route('home') }}" class="ml-3">
+      <img src="/img/logo.svg" alt="Logo" class="h-auto w-8" />
+    </a>
   </div>
 
   {{-- Top Navigation --}}
-  <div class="flex items-center">
-    <div class="hidden md:flex md:justify-between md:bg-transparent">
-      <button class="flex items-center p-3 font-medium mr-2 text-center bg-gray-300 rounded  hover:bg-gray-400 focus:outline-none focus:bg-gray-400">
-        <svg
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          class="w-6 h-6 mr-2">
-          <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-        </svg>
-        <span>Wishlist</span>
-      </button>
-      <button class="flex items-cente p-3 font-medium mr-2 text-center bg-gray-300 rounded  hover:bg-gray-400 focus:outline-none focus:bg-gray-400">
-        <svg
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          class="w-6 h-6">
-          <path d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-      </button>
-      <a
-        rel="noopener"
-        href="https://www.buymeacoffee.com/fayazahmed"
-        target="_blank"
-        title="Help me keep this site alive"
-        class="flex items-center  px-3 py-3 font-medium mr-2 text-center bg-orange-600 rounded text-white hover:bg-orange-700 focus:outline-none focus:bg-orange-400">
-        <img class="mr-2 h-6 w-auto" src="/sidebar/bmc.svg" alt="Buy Me Coffee"/>
-        <p class="font-bold">Buy me a Coffee</p>
-      </a>
+  @if (Route::has('login'))
+    <div class="flex items-center">
+      <div class="hidden md:flex md:justify-between md:bg-transparent">
+        @guest
+          <x-link href="{{ route('login') }}" :active="request()->routeIs('login')">
+            Login
+          </x-link>
+
+          @if (Route::has('register'))
+            <x-link href="{{ route('register') }}" class="ml-2" :active="request()->routeIs('register')">
+              Register
+            </x-link>
+          @endif
+        @endguest
+        @auth
+        <div class="ml-3 relative">
+                    <x-jet-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                </button>
+                            @else
+                                <span class="inline-flex rounded-md">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                        {{ Auth::user()->name }}
+
+                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </span>
+                            @endif
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <!-- Account Management -->
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Manage Account') }}
+                            </div>
+
+                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Profile') }}
+                            </x-jet-dropdown-link>
+
+                            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                                <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
+                                    {{ __('API Tokens') }}
+                                </x-jet-dropdown-link>
+                            @endif
+
+                            <div class="border-t border-gray-100"></div>
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}" x-data>
+                                @csrf
+
+                                <x-jet-dropdown-link href="{{ route('logout') }}"
+                                         @click.prevent="$root.submit();">
+                                    {{ __('Log Out') }}
+                                </x-jet-dropdown-link>
+                            </form>
+                        </x-slot>
+                    </x-jet-dropdown>
+                </div>
+        @endauth
+      </div>
     </div>
-  </div>
+  @endif
 
   {{-- Side Drawer Background --}}
   <div x-show="isDrawerOpen" class="z-10 fixed inset-0 transition-opacity">
@@ -69,12 +103,32 @@
     :class="{ 'translate-x-0': isDrawerOpen, '-translate-x-full': ! isDrawerOpen }">
     <span
       x-on:click="isDrawerOpen = false"
-      class="flex w-full items-center p-4 border-b">
-      <img src="/images/logo.svg" alt="Logo" class="h-auto w-32 mx-auto" />
+      class="flex w-full items-center h-16 border-b">
+      <span class="mx-auto font-semibold">Navigation</span>
     </span>
-    <span
+    @auth
+      <a href="{{ route('dashboard') }}"
+        x-on:click="isDrawerOpen = false"
+        class="flex items-center p-4 hover:bg-lime-500 hover:text-white">
+        <span class="mr-2">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            class="h-6 w-6" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor" 
+            stroke-width="2"
+            stroke-linecap="round" 
+            stroke-linejoin="round">
+            <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+          </svg>
+        </span>
+        <span>{{ __('Dashboard') }}</span>
+      </a>
+    @endauth
+    <a href="{{ route('home') }}"
       x-on:click="isDrawerOpen = false"
-      class="flex items-center p-4 hover:bg-indigo-500 hover:text-white">
+      class="flex items-center p-4 hover:bg-lime-500 hover:text-white">
       <span class="mr-2">
         <svg
           fill="none"
@@ -88,9 +142,9 @@
         </svg>
       </span>
       <span>Home</span>
-    </span>
+    </a>
     <div class="fixed bottom-0 w-full">
-      <button class="flex items-center p-4 text-white bg-blue-500 hover:bg-blue-600 w-full">
+      <button class="flex items-center p-4 text-white bg-lime-500 hover:bg-lime-600 w-full">
         <svg
           fill="none"
           stroke-linecap="round"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="min-h-full mb-[1px]">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,12 +17,20 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+
+        <!-- Alpine JS -->
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
     </head>
-    <body class="font-sans antialiased">
+    <body 
+        x-data="{ isDrawerOpen: false }"
+        :class="{'overflow-hidden': isDrawerOpen}"
+        class="font-sans antialiased">
+
+        <x-navigation-component />
+
         <x-jet-banner />
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+        <div class="bg-gray-100 pt-[64px]">
 
             <!-- Page Heading -->
             @if (isset($header))

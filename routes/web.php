@@ -15,8 +15,10 @@ use App\Http\Livewire\QuizComponent;
 */
 
 Route::get('/', function () {
+    session()->flash('flash.banner', 'Welcome Message!');
+    session()->flash('flash.bannerStyle', 'success');
     return view('welcome');
-});
+})->name( 'home' );
 
 Route::get('/dkq', QuizComponent::class);
 
