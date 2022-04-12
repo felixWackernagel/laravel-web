@@ -19,33 +19,22 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
 
         <!-- Alpine JS -->
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+        <script src="{{ asset('js/alpinejs.3.9.6.min.js') }}" defer></script>
     </head>
     <body 
         x-data="{ isDrawerOpen: false }"
         :class="{'overflow-hidden': isDrawerOpen}"
         class="font-sans antialiased">
 
-        <x-navigation-component />
+        <x-navigation-component :title="$pageTitle"/>
 
-        <x-jet-banner />
+        <main class="pt-16 xl:ml-64">
 
-        <div class="bg-gray-100 pt-[64px]">
+            @livewire('notification')
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+            {{ $slot }}
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+        </main>
 
         @stack('modals')
 

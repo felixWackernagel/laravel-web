@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->dateTime( 'quiz_start' )->nullable();
-            $table->boolean( 'is_online' )->default( false );
+            $table->smallInteger('number');
+            $table->dateTime('quiz_start')->nullable();
+            $table->boolean('is_online')->default( false );
+            $table->foreignId('quiz_master_id')->nullable()->references('id')->on('users');
+            $table->foreignId('quiz_winner_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }

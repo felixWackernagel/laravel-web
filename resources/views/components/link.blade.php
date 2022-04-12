@@ -1,11 +1,16 @@
 @props(['active'])
 
 @php
-$classes = ($active ?? false)
-            ? 'text-sm text-lime-700 dark:text-white uppercase font-semibold hover:underline'
-            : 'text-sm text-gray-900 dark:text-white uppercase font-semibold hover:underline';
+$classes = 'inline-flex items-center text-sm dark:text-white uppercase font-semibold hover:underline';
+$classes .= ($active ?? false) ? ' text-lime-700' : ' text-gray-900';
 @endphp
 
 <a {{ $attributes->merge(['class' => $classes]) }}>
+    @if( isset( $icon ) )
+        <span class="mr-2">
+            {{ $icon }}
+        </span>
+    @endif
+
     {{ $slot }}
 </a>

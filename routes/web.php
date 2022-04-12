@@ -14,13 +14,9 @@ use App\Http\Livewire\QuizComponent;
 |
 */
 
-Route::get('/', function () {
-    session()->flash('flash.banner', 'Welcome Message!');
-    session()->flash('flash.bannerStyle', 'success');
-    return view('welcome');
-})->name( 'home' );
+Route::get('/', fn () => view('welcome') )->name( 'home' );
 
-Route::get('/dkq', QuizComponent::class);
+Route::get('/dkq', fn () => view('dkq') )->name('dkq');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

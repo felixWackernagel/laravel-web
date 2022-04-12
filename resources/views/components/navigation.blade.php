@@ -1,38 +1,38 @@
 {{-- alpin js: usage of 'isDrawerOpen' variable --}}
-<nav class="flex fixed w-full items-center justify-between px-6 h-16 bg-white text-gray-700 border-b border-gray-200 z-10">
+<nav class="fixed left-0 xl:left-64 right-0 flex items-center justify-between px-6 h-16 bg-white text-gray-700 border-b border-gray-200 z-10">
   
   {{-- Side Drawer Opener --}}
   <div class="flex items-center">
-    <button class="mr-3" aria-label="Open Menu" x-on:click="isDrawerOpen = !isDrawerOpen">
-      <svg
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        class="w-8 h-8">
-        <path d="M4 6h16M4 12h16M4 18h16"></path>
-      </svg>
+    <button class="mr-6 xl:hidden" aria-label="Open Menu" x-on:click="isDrawerOpen = !isDrawerOpen">
+      <x-svg.menu />
     </button>
     
-    <a href="{{ route('home') }}" class="ml-3">
+    <a href="{{ route('home') }}" title="{{ config('app.name', 'Laravel') }}">
       <img src="/img/logo.svg" alt="Logo" class="h-auto w-8" />
     </a>
+   
+    @if( !empty($title) )
+      <span class="ml-6 font-semibold text-xl text-gray-800 leading-tight">
+        {{ $title }}
+      </span>
+    @endif
+
   </div>
 
   {{-- Top Navigation --}}
   @if (Route::has('login'))
     <div class="flex items-center">
-      <div class="hidden md:flex md:justify-between md:bg-transparent">
+      <div class="flex justify-between">
         @guest
           <x-link href="{{ route('login') }}" :active="request()->routeIs('login')">
-            Login
+            @slot( 'icon' ) <x-svg.login /> @endslot
+            <span class="hidden sm:inline">{{ __('Login') }}</span>
           </x-link>
 
           @if (Route::has('register'))
-            <x-link href="{{ route('register') }}" class="ml-2" :active="request()->routeIs('register')">
-              Register
+            <x-link href="{{ route('register') }}" class="ml-4" :active="request()->routeIs('register')">
+              @slot( 'icon' ) <x-svg.pencil_alt /> @endslot
+              <span class="hidden sm:inline">{{ __('Register') }}</span>
             </x-link>
           @endif
         @endguest
@@ -99,7 +99,7 @@
 
   {{-- Side Drawer --}}
   <aside
-    class="transform top-0 left-0 w-64 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 -translate-x-full"
+    class="transform top-0 left-0 w-64 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 -translate-x-full xl:translate-x-0 xl:border-r"
     :class="{ 'translate-x-0': isDrawerOpen, '-translate-x-full': ! isDrawerOpen }">
     <span
       x-on:click="isDrawerOpen = false"
@@ -111,17 +111,7 @@
         x-on:click="isDrawerOpen = false"
         class="flex items-center p-4 hover:bg-lime-500 hover:text-white">
         <span class="mr-2">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            class="h-6 w-6" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor" 
-            stroke-width="2"
-            stroke-linecap="round" 
-            stroke-linejoin="round">
-            <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-          </svg>
+          <x-svg.template />
         </span>
         <span>{{ __('Dashboard') }}</span>
       </a>
@@ -130,31 +120,21 @@
       x-on:click="isDrawerOpen = false"
       class="flex items-center p-4 hover:bg-lime-500 hover:text-white">
       <span class="mr-2">
-        <svg
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          class="w-6 h-6">
-          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-        </svg>
+        <x-svg.home />
       </span>
       <span>Home</span>
     </a>
+    <a href="{{ route('dkq') }}"
+      x-on:click="isDrawerOpen = false"
+      class="flex items-center p-4 hover:bg-lime-500 hover:text-white">
+      <span class="mr-2">
+        <x-svg.academic_cap />
+      </span>
+      <span>DKQ</span>
+    </a>
     <div class="fixed bottom-0 w-full">
       <button class="flex items-center p-4 text-white bg-lime-500 hover:bg-lime-600 w-full">
-        <svg
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          class="h-6 w-6 mr-2">
-          <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
-        </svg>
+        <x-svg.share />
         <span>Share</span>
       </button>
     </div>
