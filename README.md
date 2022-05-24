@@ -65,7 +65,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## CLI Commands
 
-- php artisan serve
-- php artisan migrate:fresh --seed
-- php artisan make:livewire TestComponent
-- npm run dev
+- php artisan serve // start demo server
+- php artisan migrate:fresh --seed // run migration with seeders
+- php artisan make:livewire TestComponent // create livewire Component + Layout
+- npm run dev // compile scss

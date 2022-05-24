@@ -36,7 +36,7 @@ class Notification extends Component
 
     public function render()
     {
-        $messages = $this->notifications; // new array, no reference
+        $messages = $this->notifications; // thats a new array and no reference
         $this->clear();
         return view('livewire.notification', [ 'notifications' => $messages ]);
     }

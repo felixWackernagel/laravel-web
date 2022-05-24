@@ -1,11 +1,8 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+<x-app-layout :pageTitle="__('page.forgot_password_title')">
+    <div class="w-full sm:max-w-md mx-auto mt-8 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('page.forgot_password_description') }}
         </div>
 
         @if (session('status'))
@@ -20,15 +17,15 @@
             @csrf
 
             <div class="block">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
+                <x-jet-label for="email" value="{{ __('page.forgot_password_field_email') }}" />
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
-                    {{ __('Email Password Reset Link') }}
+                <x-jet-button class="bg-orange-500 hover:bg-orange-400">
+                    {{ __('page.forgot_password_action_reset') }}
                 </x-jet-button>
             </div>
         </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+    </div>
+</x-app-layout>

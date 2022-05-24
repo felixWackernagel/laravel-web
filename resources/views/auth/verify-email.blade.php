@@ -1,16 +1,12 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
-
+<x-app-layout :pageTitle="__('page.verify_email_title')">
+<div class="w-full sm:max-w-md mx-auto mt-8 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+            {{ __('page.verify_email_description') }}
         </div>
 
         @if (session('status') == 'verification-link-sent')
             <div class="mb-4 font-medium text-sm text-green-600">
-                {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+                {{ __('page.verify_email_success') }}
             </div>
         @endif
 
@@ -19,8 +15,8 @@
                 @csrf
 
                 <div>
-                    <x-jet-button type="submit">
-                        {{ __('Resend Verification Email') }}
+                    <x-jet-button type="submit" class="bg-orange-500 hover:bg-orange-400">
+                        {{ __('page.verify_email_action_resend_email') }}
                     </x-jet-button>
                 </div>
             </form>
@@ -29,9 +25,9 @@
                 @csrf
 
                 <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    {{ __('Log Out') }}
+                    {{ __('page.verify_email_action_logout') }}
                 </button>
             </form>
         </div>
-    </x-jet-authentication-card>
-</x-guest-layout>
+    </div>
+</x-app-layout>
